@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valdo Criações — Loja</title>
+  <meta name="description" content="Artigos de sublimação (têxteis, cerâmica, diversos) e impressão 3D (resina, PLA, PETG, ASA, ABS). Encomendas por WhatsApp." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{{--bg:#0f1115;--card:#151823;--muted:#9aa4b2;--text:#e6e9ef;--primary:#ffd166;--accent:#8ecae6}}
+    *{{box-sizing:border-box}}
+    body{{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;background:radial-gradient(1200px 600px at 70% -10%, #1b1f2a 0%, #0f1115 60%), var(--bg);color:var(--text)}}
+    a{{color:inherit;text-decoration:none}}
+    .container{{max-width:1180px;margin:0 auto;padding:20px}}
+    header{{position:sticky;top:0;background:rgba(15,17,21,.65);backdrop-filter:blur(8px);border-bottom:1px solid #222;z-index:10}}
+    .nav{{display:flex;align-items:center;justify-content:space-between;gap:12px}}
+    .brand{{display:flex;gap:10px;align-items:center}}
+    .logo{{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ffd166,#ff7f50);display:grid;place-items:center;color:#111;font-weight:800}}
+    .tabs{{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}}
+    .tab, .subtab{{padding:10px 14px;border:1px solid #2a3040;border-radius:999px;color:var(--muted);cursor:pointer;user-select:none}}
+    .tab.active, .subtab.active{{border-color:#3b82f6;color:#eaf2ff;box-shadow:0 0 0 2px rgba(59,130,246,.15)}}
+    .grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
+    .card{{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid #272b36;border-radius:16px;overflow:hidden;transition:.2s}}
+    .card:hover{{transform:translateY(-2px)}}
+    .thumb{{aspect-ratio:4/3;background:#0d0f14;position:relative}}
+    .thumb img{{width:100%;height:100%;object-fit:cover;display:block}}
+    .body{{padding:14px}}
+    .title{{font-weight:700;margin:0 0 6px}}
+    .muted{{color:var(--muted);font-size:14px;line-height:1.45}}
+    .price{{margin-top:8px;font-weight:700;color:var(--primary)}}
+    .cta{{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}}
+    .btn{{padding:10px 12px;border-radius:10px;border:1px solid #333;background:#1c2230;color:var(--text);font-weight:600;transition:.2s}}
+    .btn:hover{{transform:translateY(-1px);border-color:#3b82f6}}
+    .btn.primary{{background:linear-gradient(135deg,#ffd166,#ffb703);color:#111;border-color:#ffb703}}
+    .toolbar{{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0}}
+    .search{{flex:1;display:flex;gap:8px}}
+    .search input{{flex:1;background:#0f131c;border:1px solid #2b3140;border-radius:10px;padding:10px;color:var(--text)}}
+    .chips{{display:flex;gap:8px;flex-wrap:wrap}}
+    footer{{border-top:1px solid #222;color:var(--muted);padding:26px 0;margin-top:28px}}
+    .fine{{font-size:12px;color:#8b95a4}}
+    @media (max-width:920px){{.grid{{grid-template-columns:1fr 1fr}}}}
+    @media (max-width:620px){{.grid{{grid-template-columns:1fr}} .toolbar{{flex-direction:column;align-items:stretch}}}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">V</div>
+        <div>
+          <strong>Valdo Criações</strong><br><span class="fine">Sublimação & Impressão 3D</span>
+        </div>
+      </div>
+      <div class="chips">
+        <a class="btn" href="https://wa.me/351919707023?text=Ol%C3%A1%2C%20quero%20encomendar" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn" href="mailto:valdoscp2@hotmail.com">Email</a>
+        <a class="btn" href="https://www.instagram.com/sublimadaarte" target="_blank" rel="noopener">@sublimadaarte</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Loja</h1>
+    <div class="tabs" id="cats"></div>
+    <div class="tabs" id="subcats"></div>
+
+    <div class="toolbar">
+      <div class="search">
+        <input id="q" placeholder="Procurar produto por nome/descrição..." />
+        <button id="clear" class="btn">Limpar</button>
+      </div>
+      <div class="fine">Editar produtos em <code>produtos.json</code></div>
+    </div>
+
+    <section>
+      <div class="grid" id="grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container fine">© 2025 Valdo Criações — Produção própria. Envios CTT. Pagamento por MB Way, Multibanco, Cartão e PayPal.</div>
+  </footer>
+
+  <script>
+    const TEL = "351919707023";
+    const state = {{cat:null, sub:null, q:""}};
+
+    async function loadData() {{
+      const res = await fetch('produtos.json?cache=' + Date.now());
+      const data = await res.json();
+      return data;
+    }}
+
+    function el(tag, cls, txt) {{
+      const e = document.createElement(tag);
+      if(cls) e.className = cls;
+      if(txt) e.textContent = txt;
+      return e;
+    }}
+
+    function renderCats(data) {{
+      const catsEl = document.getElementById('cats');
+      catsEl.innerHTML = '';
+      data.categorias.forEach(c => {{
+        const b = el('div', 'tab' + (state.cat===c.nome?' active':''), c.nome);
+        b.onclick = () => {{ state.cat = c.nome; state.sub=null; render(data); }};
+        catsEl.appendChild(b);
+      }});
+      if(!state.cat && data.categorias[0]) state.cat = data.categorias[0].nome;
+    }}
+
+    function renderSubcats(data) {{
+      const subEl = document.getElementById('subcats');
+      subEl.innerHTML = '';
+      const cat = data.categorias.find(c => c.nome===state.cat);
+      if(!cat) return;
+      cat.subcategorias.forEach(s => {{
+        const b = el('div', 'subtab' + (state.sub===s.nome?' active':''), s.nome);
+        b.onclick = () => {{ state.sub = s.nome; render(data); }};
+        subEl.appendChild(b);
+      }});
+      if(!state.sub && cat.subcategorias[0]) state.sub = cat.subcategorias[0].nome;
+    }}
+
+    function matchQ(item) {{
+      if(!state.q) return true;
+      const q = state.q.toLowerCase();
+      return (item.titulo||'').toLowerCase().includes(q) || (item.descricao||'').toLowerCase().includes(q);
+    }}
+
+    function renderGrid(data) {{
+      const grid = document.getElementById('grid');
+      grid.innerHTML='';
+      const cat = data.categorias.find(c => c.nome===state.cat);
+      if(!cat) return;
+      const sub = cat.subcategorias.find(s => s.nome===state.sub);
+      if(!sub) return;
+
+      const items = (sub.items||[]).filter(matchQ);
+      if(items.length===0) {{
+        const p = el('p', 'muted', 'Sem produtos nesta vista. Ajusta a pesquisa ou muda de subcategoria.');
+        grid.appendChild(p);
+        return;
+      }}
+
+      items.forEach(it => {{
+        const card = el('article','card');
+        const thumb = el('div','thumb');
+        const img = new Image();
+        img.src = it.imagem || 'https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1200&auto=format&fit=crop';
+        thumb.appendChild(img);
+        const body = el('div','body');
+        const h = el('h3','title', it.titulo||'Produto');
+        const d = el('p','muted', it.descricao||'');
+        const p = el('div','price', it.preco||'');
+        const cta = el('div','cta');
+        const w = el('a','btn primary','Encomendar via WhatsApp');
+        const msg = encodeURIComponent((it.whats || it.titulo || 'Encomenda') + ' — ' + (it.preco||''));
+        w.href = 'https://wa.me/' + TEL + '?text=' + msg;
+        w.target = '_blank';
+        cta.appendChild(w);
+        if(it.checkout) {{
+          const ck = el('a','btn','Checkout');
+          ck.href = it.checkout; ck.target = '_blank';
+          cta.appendChild(ck);
+        }}
+        body.appendChild(h); body.appendChild(d); body.appendChild(p); body.appendChild(cta);
+        card.appendChild(thumb); card.appendChild(body);
+        grid.appendChild(card);
+      }});
+    }}
+
+    function wireSearch(data) {{
+      const q = document.getElementById('q');
+      const clear = document.getElementById('clear');
+      q.addEventListener('input', () => {{ state.q = q.value; renderGrid(data); }});
+      clear.onclick = () => {{ q.value=''; state.q=''; renderGrid(data); }};
+    }}
+
+    async function renderAll() {{
+      const data = await loadData();
+      renderCats(data);
+      renderSubcats(data);
+      renderGrid(data);
+      wireSearch(data);
+    }}
+
+    function render(data) {{
+      renderCats(data);
+      renderSubcats(data);
+      renderGrid(data);
+    }}
+
+    renderAll();
+  </script>
+</body>
+</html>
