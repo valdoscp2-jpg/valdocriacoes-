@@ -86,209 +86,111 @@
   <!-- DADOS DOS PRODUTOS (editável) -->
   <script id="prod-json" type="application/json">{
     "categorias": [
-      {
-        "nome": "Artigos de Sublimação",
-        "subcategorias": [
-          {
-            "nome": "Têxteis",
-            "items": [
-              {
-                "titulo": "Camisola “Namastê” — S-XXL",
-                "descricao": "Sublimação HD • 260–265 g/m² • 65% poli / 35% algodão.",
-                "preco": "€24,90",
-                "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop",
-                "whats": "Quero encomendar a Camisola Namastê (S-XXL)"
-              },
-              {
-                "titulo": "Hoodie personalizado",
-                "descricao": "Impressão por sublimação de alta definição. Várias cores e tamanhos.",
-                "preco": "desde €29,90",
-                "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop"
-              }
-            ]
-          },
-          {
-            "nome": "Cerâmica",
-            "items": [
-              {
-                "titulo": "Caneca personalizada 330 ml",
-                "descricao": "Sublimação 100% — resistente à máquina de lavar.",
-                "preco": "€9,90",
-                "imagem": "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1200&auto=format&fit=crop",
-                "whats": "Encomenda Caneca 330 ml"
-              },
-              {
-                "titulo": "Azulejo decorativo 15×15",
-                "descricao": "Peça cerâmica com arte personalizada por sublimação.",
-                "preco": "€12,00",
-                "imagem": "https://images.unsplash.com/photo-1601397922721-4324df3dc42d?q=80&w=1200&auto=format&fit=crop"
-              },
-{
-                "titulo": "Azulejo decorativo 15×15",
-                "descricao": "Peça cerâmica com arte personalizada por sublimação.",
-                "preco": "€12,00",
-                "imagem": https://github.com/valdoscp2-jpg/imagens/blob/main/transferir%20-%202025-10-26T174708.051.jpeg
-              }
-            ]
-          },
-          {
-            "nome": "Diversos",
-            "items": [
-              {
-                "titulo": "Base de rato personalizada",
-                "descricao": "Textura confortável, impressão nítida por sublimação.",
-                "preco": "€7,50",
-                "imagem": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "nome": "3D",
-        "subcategorias": [
-          {
-            "nome": "Resina 3D",
-            "items": [
-              {
-                "titulo": "Miniatura em resina (alto detalhe)",
-                "descricao": "Impressão em resina UV com acabamento fino. Pintura opcional.",
-                "preco": "desde €29,00",
-                "imagem": "https://images.unsplash.com/photo-1557814769-96d38c6f7e8d?q=80&w=1200&auto=format&fit=crop",
-                "whats": "Orçamento Miniatura Resina 3D"
-              }
-            ]
-          },
-          {
-            "nome": "Impressão 3D PLA & PETG",
-            "items": [
-              {
-                "titulo": "Peça técnica PLA/PETG",
-                "descricao": "Impressão robusta para peças funcionais. Várias cores.",
-                "preco": "sob orçamento",
-                "imagem": "https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=1200&auto=format&fit=crop",
-                "whats": "Orçamento Impressão 3D PLA/PETG"
-              }
-            ]
-          },
-          {
-            "nome": "ASA, ABS & Outros",
-            "items": [
-              {
-                "titulo": "Peça ASA/ABS para exterior",
-                "descricao": "Materiais de engenharia resistentes ao clima e temperatura.",
-                "preco": "sob orçamento",
-                "imagem": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=1200&auto=format&fit=crop",
-                "whats": "Orçamento ASA/ABS"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }</script>
-
-  <!-- LÓGICA -->
-  <script>
-    const TEL = "351919707023";
-    const state = {cat:null, sub:null, q:""};
-
-    function getData(){
-      const el = document.getElementById('prod-json');
-      return JSON.parse(el.textContent);
-    }
-
-    function elmt(tag, cls, txt){
-      const e = document.createElement(tag);
-      if(cls) e.className = cls;
-      if(txt) e.textContent = txt;
-      return e;
-    }
-
-    function renderCats(data){
-      const catsEl = document.getElementById('cats');
-      catsEl.innerHTML = '';
-      data.categorias.forEach(c => {
-        const b = elmt('div', 'tab' + (state.cat===c.nome?' active':''), c.nome);
-        b.onclick = () => { state.cat = c.nome; state.sub=null; render(data); };
-        catsEl.appendChild(b);
-      });
-      if(!state.cat && data.categorias[0]) state.cat = data.categorias[0].nome;
-    }
-
-    function renderSubcats(data){
-      const subEl = document.getElementById('subcats');
-      subEl.innerHTML = '';
-      const cat = data.categorias.find(c => c.nome===state.cat);
-      if(!cat) return;
-      cat.subcategorias.forEach(s => {
-        const b = elmt('div', 'subtab' + (state.sub===s.nome?' active':''), s.nome);
-        b.onclick = () => { state.sub = s.nome; render(data); };
-        subEl.appendChild(b);
-      });
-      if(!state.sub && cat.subcategorias[0]) state.sub = cat.subcategorias[0].nome;
-    }
-
-    function matchQ(item){
-      if(!state.q) return true;
-      const q = state.q.toLowerCase();
-      return (item.titulo||'').toLowerCase().includes(q) || (item.descricao||'').toLowerCase().includes(q);
-    }
-
-    function renderGrid(data){
-      const grid = document.getElementById('grid');
-      grid.innerHTML='';
-      const cat = data.categorias.find(c => c.nome===state.cat);
-      if(!cat) return;
-      const sub = cat.subcategorias.find(s => s.nome===state.sub);
-      if(!sub) return;
-
-      const items = (sub.items||[]).filter(matchQ);
-      if(items.length===0) {
-        const p = elmt('p', 'muted', 'Sem produtos nesta vista. Ajusta a pesquisa ou muda de subcategoria.');
-        grid.appendChild(p);
-        return;
-      }
-
-      items.forEach(it => {
-        const card = elmt('article','card');
-        const thumb = elmt('div','thumb');
-        const img = new Image();
-        img.src = it.imagem || 'https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1200&auto=format&fit=crop';
-        thumb.appendChild(img);
-        const body = elmt('div','body');
-        const h = elmt('h3','title', it.titulo||'Produto');
-        const d = elmt('p','muted', it.descricao||'');
-        const p = elmt('div','price', it.preco||'');
-        const cta = elmt('div','cta');
-        const w = elmt('a','btn primary','Encomendar via WhatsApp');
-        const msg = encodeURIComponent((it.whats || it.titulo || 'Encomenda') + ' — ' + (it.preco||''));
-        w.href = 'https://wa.me/' + TEL + '?text=' + msg;
-        w.target = '_blank';
-        cta.appendChild(w);
-        if(it.checkout){
-          const ck = elmt('a','btn','Checkout');
-          ck.href = it.checkout; ck.target = '_blank';
-          cta.appendChild(ck);
+    
+ {
+  "categorias": [
+    {
+      "nome": "Artigos de Sublimação",
+      "subcategorias": [
+        {
+          "nome": "Têxteis",
+          "items": [
+            {
+              "titulo": "Camisola “Namastê” — S-XXL",
+              "descricao": "Sublimação HD • 260–265 g/m² • 65% poli / 35% algodão.",
+              "preco": "€24,90",
+              "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop",
+              "whats": "Quero encomendar a Camisola Namastê (S-XXL)"
+            },
+            {
+              "titulo": "Hoodie personalizado",
+              "descricao": "Impressão por sublimação de alta definição. Várias cores e tamanhos.",
+              "preco": "desde €29,90",
+              "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop"
+            }
+          ]
+        },
+        {
+          "nome": "Cerâmica",
+          "items": [
+            {
+              "titulo": "Caneca personalizada 330 ml",
+              "descricao": "Sublimação 100% — resistente à máquina de lavar.",
+              "preco": "€9,90",
+              "imagem": "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1200&auto=format&fit=crop",
+              "whats": "Encomenda Caneca 330 ml"
+            },
+            {
+              "titulo": "Azulejo decorativo 15×15",
+              "descricao": "Peça cerâmica com arte personalizada por sublimação.",
+              "preco": "€12,00",
+              "imagem": "https://images.unsplash.com/photo-1601397922721-4324df3dc42d?q=80&w=1200&auto=format&fit=crop"
+            },
+            {
+              "titulo": "Azulejo decorativo 15×15",
+              "descricao": "Peça cerâmica com arte personalizada por sublimação.",
+              "preco": "€12,00",
+              "imagem": "https://raw.githubusercontent.com/valdoscp2-jpg/imagens/724a075ea1ae159135df8e241190b90993f46dde/transferir%20-%202025-10-26T174708.051.jpeg"
+            }
+          ]
+        },
+        {
+          "nome": "Diversos",
+          "items": [
+            {
+              "titulo": "Base de rato personalizada",
+              "descricao": "Textura confortável, impressão nítida por sublimação.",
+              "preco": "€7,50",
+              "imagem": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop"
+            }
+          ]
         }
-        body.appendChild(h); body.appendChild(d); body.appendChild(p); body.appendChild(cta);
-        card.appendChild(thumb); card.appendChild(body);
-        grid.appendChild(card);
-      });
+      ]
+    },
+    {
+      "nome": "3D",
+      "subcategorias": [
+        {
+          "nome": "Resina 3D",
+          "items": [
+            {
+              "titulo": "Miniatura em resina (alto detalhe)",
+              "descricao": "Impressão em resina UV com acabamento fino. Pintura opcional.",
+              "preco": "desde €29,00",
+              "imagem": "https://images.unsplash.com/photo-1557814769-96d38c6f7e8d?q=80&w=1200&auto=format&fit=crop",
+              "whats": "Orçamento Miniatura Resina 3D"
+            }
+          ]
+        },
+        {
+          "nome": "Impressão 3D PLA & PETG",
+          "items": [
+            {
+              "titulo": "Peça técnica PLA/PETG",
+              "descricao": "Impressão robusta para peças funcionais. Várias cores.",
+              "preco": "sob orçamento",
+              "imagem": "https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=1200&auto=format&fit=crop",
+              "whats": "Orçamento Impressão 3D PLA/PETG"
+            }
+          ]
+        },
+        {
+          "nome": "ASA, ABS & Outros",
+          "items": [
+            {
+              "titulo": "Peça ASA/ABS para exterior",
+              "descricao": "Materiais de engenharia resistentes ao clima e temperatura.",
+              "preco": "sob orçamento",
+              "imagem": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=1200&auto=format&fit=crop",
+              "whats": "Orçamento ASA/ABS"
+            }
+          ]
+        }
+      ]
     }
+  ]
+}
 
-    function wireSearch(data){
-      const q = document.getElementById('q');
-      const clear = document.getElementById('clear');
-      q.addEventListener('input', () => { state.q = q.value; renderGrid(data); });
-      clear.onclick = () => { q.value=''; state.q=''; renderGrid(data); };
-    }
-
-    function render(data){
-      renderCats(data);
-      renderSubcats(data);
-      renderGrid(data);
-    }
 
     (function start(){
       const data = getData();
