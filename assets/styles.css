@@ -37,3 +37,33 @@ footer{border-top:1px solid #222;color:var(--muted);padding:26px 0;margin-top:28
 .cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 @media (max-width:980px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.grid{grid-template-columns:1fr}}
+/* ---- Melhorias visuais loja ---- */
+.card{
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s;
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+}
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.28);
+  border-color: #3b82f6;
+}
+.card .thumb{
+  aspect-ratio: 4/3;
+  background: #0d0f14;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card .thumb img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* espaçamento mais respirado na grelha */
+.grid{ gap: 20px; }
+
+/* tipografia do preço mais forte */
+.price{ font-weight: 800; letter-spacing: .2px; }
