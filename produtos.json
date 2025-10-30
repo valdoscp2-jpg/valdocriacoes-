@@ -10,14 +10,14 @@
               "titulo": "Camisola “Namastê” — S-XXL",
               "descricao": "Sublimação HD • 260–265 g/m² • 65% poli / 35% algodão.",
               "preco": "€24,90",
-              "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop",
+              "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop",
               "whats": "Quero encomendar a Camisola Namastê (S-XXL)"
             },
             {
               "titulo": "Hoodie personalizado",
               "descricao": "Impressão por sublimação de alta definição. Várias cores e tamanhos.",
               "preco": "desde €29,90",
-              "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop"
+              "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=600&auto=format&fit=crop"
             }
           ]
         },
@@ -28,25 +28,14 @@
               "titulo": "Caneca personalizada 330 ml",
               "descricao": "Sublimação 100% — resistente à máquina de lavar.",
               "preco": "€9,90",
-              "imagem": "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1200&auto=format&fit=crop",
+              "imagem": "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=600&auto=format&fit=crop",
               "whats": "Encomenda Caneca 330 ml"
             },
             {
               "titulo": "Azulejo decorativo 15×15",
               "descricao": "Peça cerâmica com arte personalizada por sublimação.",
               "preco": "€12,00",
-              "imagem": "https://images.unsplash.com/photo-1601397922721-4324df3dc42d?q=80&w=1200&auto=format&fit=crop"
-            }
-          ]
-        },
-        {
-          "nome": "Diversos",
-          "items": [
-            {
-              "titulo": "Base de rato personalizada",
-              "descricao": "Textura confortável, impressão nítida por sublimação.",
-              "preco": "€7,50",
-              "imagem": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop"
+              "imagem": "https://images.unsplash.com/photo-1601397922721-4324df3dc42d?q=80&w=600&auto=format&fit=crop"
             }
           ]
         }
@@ -62,7 +51,7 @@
               "titulo": "Miniatura em resina (alto detalhe)",
               "descricao": "Impressão em resina UV com acabamento fino. Pintura opcional.",
               "preco": "desde €29,00",
-              "imagem": "https://images.unsplash.com/photo-1557814769-96d38c6f7e8d?q=80&w=1200&auto=format&fit=crop",
+              "imagem": "https://images.unsplash.com/photo-1557814769-96d38c6f7e8d?q=80&w=600&auto=format&fit=crop",
               "whats": "Orçamento Miniatura Resina 3D"
             }
           ]
@@ -74,20 +63,8 @@
               "titulo": "Peça técnica PLA/PETG",
               "descricao": "Impressão robusta para peças funcionais. Várias cores.",
               "preco": "sob orçamento",
-              "imagem": "https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=1200&auto=format&fit=crop",
+              "imagem": "https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=600&auto=format&fit=crop",
               "whats": "Orçamento Impressão 3D PLA/PETG"
-            }
-          ]
-        },
-        {
-          "nome": "ASA, ABS & Outros",
-          "items": [
-            {
-              "titulo": "Peça ASA/ABS para exterior",
-              "descricao": "Materiais de engenharia resistentes ao clima e temperatura.",
-              "preco": "sob orçamento",
-              "imagem": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=1200&auto=format&fit=crop",
-              "whats": "Orçamento ASA/ABS"
             }
           ]
         }
