@@ -1,387 +1,170 @@
 <!DOCTYPE html>
-<html lang="pt">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Loja — Valdo Criações</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
-<meta name="robots" content="noindex,nofollow">
-<style>
-  .card .thumb{ aspect-ratio:4/3; background:#0d0f14; overflow:hidden; display:flex; align-items:center; justify-content:center }
-  .card .thumb img{ width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in }
-  #zoom{ position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.85); z-index:9999; padding:20px }
-  #zoom img{ max-width:95vw; max-height:90vh; display:block }
-  #zoom.closeable{ cursor:zoom-out }
-</style>
-<script>
-(function(){
-  const KEY = "VALDO2025";
-  const ok = localStorage.getItem("gate_ok") === KEY;
-  const params = new URLSearchParams(location.search);
-  if (ok || params.get("k") === KEY) { if (params.get("k") === KEY) localStorage.setItem("gate_ok", KEY); return; }
-  document.write(`
-    <style>body{margin:0;background:#0f1115;color:#e6e9ef;font-family:Inter,system-ui,sans-serif}.gate{min-height:100svh;display:grid;place-items:center}
-    .card{max-width:520px;background:#121826;border:1px solid #2a3040;border-radius:14px;padding:22px}
-    input,button{padding:12px;border-radius:10px;border:1px solid #2b3140;background:#0f131c;color:#e6e9ef}.row{display:flex;gap:8px}.fine{color:#9aa4b2;font-size:12px;margin-top:8px}</style>
-    <div class="gate"><div class="card"><h2 style="margin:0 0 10px">Acesso restrito</h2><p class="fine">Usa a chave partilhada.</p>
-    <div class="row" style="margin-top:10px"><input id="pass" placeholder="Chave de acesso" style="flex:1"><button id="go">Entrar</button></div>
-    <p class="fine">Ou abre com ?k=${KEY}</p></div></div>
-    <script>document.getElementById('go').onclick=function(){const v=document.getElementById('pass').value.trim();if(v==='${KEY}'){localStorage.setItem('gate_ok','${KEY}');location.reload()}else alert('Chave incorreta')};<\/script>
-  `);
-})();
-</script>
+<html lang="pt"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loja — Valdo Criações</title><link rel="stylesheet" href="assets/styles.css">
+<style>.card .thumb{aspect-ratio:4/3;background:#0d0f14}.card .thumb img{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+#zoom{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.85);z-index:9999;padding:20px}#zoom img{max-width:95vw;max-height:90vh}</style>
 </head>
 <body>
-<header>
-  <div class="container nav">
-    <div class="brand">
-      <a class="logo" href="index.html" style="display:grid;place-items:center;color:#111;font-weight:800;text-decoration:none">V</a>
-      <div><strong>Valdo Criações</strong><br><span class="fine">Sublimação & Impressão 3D</span></div>
-    </div>
-    <div>
-      <a class="btn" href="index.html">Início</a>
-      <a class="btn" href="https://wa.me/351919707023?text=Ol%C3%A1%2C%20quero%20encomendar" target="_blank" rel="noopener">WhatsApp</a>
-    </div>
-  </div>
-</header>
+<header><div class="container nav"><div class="brand"><a class="logo" href="index.html">V</a>
+<div><strong>Valdo Criações</strong><br><span class="fine">Sublimação & Impressão 3D</span></div></div>
+<div><a class="btn" href="index.html">Início</a></div></div></header>
+<main class="container"><h1>Loja</h1>
+<div class="tabs" id="cats"></div><div class="tabs" id="subcats"></div><div class="tabs" id="groups"></div>
+<div class="toolbar"><div class="search"><input id="q" placeholder="Procurar produto..."><a id="clear" class="btn">Limpar</a></div></div>
+<section><div class="grid" id="grid"></div></section></main>
+<footer><div class="container fine">© 2025 Valdo Criações</div></footer>
 
-<main class="container">
-  <h1>Loja</h1>
-
-  <div class="tabs" id="cats"></div>
-  <div class="tabs" id="subcats"></div>
-  <div class="tabs" id="groups"></div>
-
-  <div class="toolbar">
-    <div class="search">
-      <input id="q" placeholder="Procurar produto por nome/descrição..." />
-      <a id="clear" class="btn">Limpar</a>
-    </div>
-  </div>
-
-  <section>
-    <div class="grid" id="grid"></div>
-  </section>
-</main>
-
-<footer>
-  <div class="container fine">© 2025 Valdo Criações — Envios CTT. Pagamento por <strong>MB Way</strong>. Contacto: 919 707 023</div>
-</footer>
-
-<script id="prod-json" type="application/json">{
-  "categorias": [
-    {
-      "nome": "Sublimação",
-      "imagem": "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop",
-      "subcategorias": [
-        {
-          "nome": "Têxteis",
-          "grupos": [
-            {
-              "nome": "Sweatshirts",
-              "items": [
-                {
-                  "titulo": "Sweatshirt Namastê",
-                  "descricao": "Sublimação HD, 260–265 g/m².",
-                  "preco": "€24,90",
-                  "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop",
-                  "whats": "Sweatshirt Namastê S-XXL — MB Way"
-                }
-              ]
-            },
-            {
-              "nome": "T-shirts",
-              "items": [
-                {
-                  "titulo": "T-shirt técnica branca",
-                  "descricao": "Poliéster leve para sublimação.",
-                  "preco": "€12,90",
-                  "imagem": "https://images.unsplash.com/photo-1542060748-10c28b62716f?q=80&w=600&auto=format&fit=crop",
-                  "whats": "T-shirt técnica branca — MB Way"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nome": "Cerâmica",
-          "grupos": [
-            {
-              "nome": "Canecas",
-              "items": [
-                {
-                  "titulo": "Caneca 330 ml",
-                  "descricao": "Resistente à máquina de lavar.",
-                  "preco": "€9,90",
-                  "imagem": "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=600&auto=format&fit=crop",
-                  "whats": "Caneca 330 ml — MB Way"
-                },
-                {
-                  "titulo": "Caneca mágica",
-                  "descricao": "Revela a arte com calor.",
-                  "preco": "€12,90",
-                  "imagem": "https://images.unsplash.com/photo-1514437157375-5ca91890bde7?q=80&w=600&auto=format&fit=crop"
-                },
-                {
-                  "titulo": "Caneca interior colorido",
-                  "descricao": "Várias cores de interior.",
-                  "preco": "€10,90",
-                  "imagem": "https://images.unsplash.com/photo-1526318472351-489689fd1ca8?q=80&w=600&auto=format&fit=crop"
-                }
-              ]
-            },
-            {
-              "nome": "Azulejos / Mosaicos",
-              "items": [
-                {
-                  "titulo": "Azulejo 15×15",
-                  "descricao": "Cerâmica personalizada por sublimação.",
-                  "preco": "€12,00",
-                  "imagem": "https://images.unsplash.com/photo-1601397922721-4324df3dc42d?q=80&w=600&auto=format&fit=crop"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "nome": "Diversos",
-          "items": [
-            {
-              "titulo": "Base de rato personalizada",
-              "descricao": "Textura confortável; impressão nítida.",
-              "preco": "€7,50",
-              "imagem": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600&auto=format&fit=crop"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "nome": "3D",
-      "imagem": "https://images.unsplash.com/photo-1581091215367-59ab6b11cfb3?q=80&w=1200&auto=format&fit=crop",
-      "subcategorias": [
-        {
-          "nome": "Resina 3D",
-          "items": [
-            {
-              "titulo": "Miniatura em resina (alto detalhe)",
-              "descricao": "Acabamento fino; pintura opcional.",
-              "preco": "desde €29,00",
-              "imagem": "https://images.unsplash.com/photo-1557814769-96d38c6f7e8d?q=80&w=600&auto=format&fit=crop",
-              "whats": "Miniatura resina 3D — orçamento"
-            }
-          ]
-        },
-        {
-          "nome": "PLA & PETG",
-          "items": [
-            {
-              "titulo": "Peça técnica PLA/PETG",
-              "descricao": "Peças funcionais; várias cores.",
-              "preco": "sob orçamento",
-              "imagem": "https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=600&auto=format&fit=crop",
-              "whats": "Peça técnica PLA/PETG — orçamento"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "nome": "Promoções",
-      "imagem": "https://images.unsplash.com/photo-1517840901100-8179e982acb7?q=80&w=1200&auto=format&fit=crop",
-      "subcategorias": [
-        {
-          "nome": "Ofertas da Semana",
-          "items": [
-            {
-              "titulo": "Caneca 330 ml — Pack 2",
-              "descricao": "Leve 2 por preço especial.",
-              "preco": "€16,90",
-              "imagem": "https://images.unsplash.com/photo-1505575972945-280ac5357a46?q=80&w=600&auto=format&fit=crop"
-            },
-            {
-              "titulo": "T-shirt técnica — 2 unidades",
-              "descricao": "Branca ou preta. S-XXL.",
-              "preco": "€19,90",
-              "imagem": "https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=600&auto=format&fit=crop"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}</script>
+<script id="prod-json" type="application/json">{"categorias":[
+{"nome":"Sublimação","imagem":"https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop",
+ "subcategorias":[
+  {"nome":"Têxteis","grupos":[
+    {"nome":"Sweatshirts","items":[{"titulo":"Sweatshirt Namastê","descricao":"Sublimação HD","preco":"€24,90",
+      "imagem":"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop"}]},
+    {"nome":"T-shirts","items":[{"titulo":"T-shirt técnica branca","descricao":"Poliéster leve","preco":"€12,90",
+      "imagem":"https://images.unsplash.com/photo-1542060748-10c28b62716f?q=80&w=600&auto=format&fit=crop"}]}
+  ]},
+  {"nome":"Cerâmica","grupos":[
+    {"nome":"Canecas","items":[
+      {"titulo":"Caneca 330 ml","descricao":"Resistente à máquina de lavar","preco":"€9,90",
+       "imagem":"https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=600&auto=format&fit=crop"}]}
+  ]}
+ ]},
+{"nome":"3D","imagem":"https://images.unsplash.com/photo-1581091215367-59ab6b11cfb3?q=80&w=1200&auto=format&fit=crop",
+ "subcategorias":[{"nome":"Resina 3D","items":[{"titulo":"Miniatura em resina","descricao":"Alto detalhe","preco":"desde €29,00",
+ "imagem":"https://images.unsplash.com/photo-1557814769-96d38c6f7e8d?q=80&w=600&auto=format&fit=crop"}]}]},
+{"nome":"Promoções","imagem":"https://images.unsplash.com/photo-1517840901100-8179e982acb7?q=80&w=1200&auto=format&fit=crop",
+ "subcategorias":[{"nome":"Ofertas da Semana","items":[{"titulo":"Pack Canecas","descricao":"2 por preço especial","preco":"€16,90",
+ "imagem":"https://images.unsplash.com/photo-1505575972945-280ac5357a46?q=80&w=600&auto=format&fit=crop"}]}]}
+]}</script>
 
 <script>
-  const TEL = "351919707023";
-  const state = {cat:null, sub:null, grp:null, q:""};
+const TEL="351919707023";
+const state={cat:null,sub:null,grp:null,q:""};
 
-  function getData(){
-    try{ return JSON.parse(document.getElementById('prod-json').textContent); }
-    catch(e){ alert("JSON interno inválido: " + e.message); return {categorias:[]} }
-  }
-  function el(tag, cls, txt){ const e=document.createElement(tag); if(cls) e.className=cls; if(txt) e.textContent=txt; return e; }
+function getData(){try{return JSON.parse(document.getElementById('prod-json').textContent)}catch(e){alert("JSON inválido: "+e.message);return{categorias:[]}}}
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x)e.textContent=x;return e}
 
-  function renderCats(data){
-    const catsEl = document.getElementById("cats");
-    catsEl.innerHTML = "";
-    (data.categorias||[]).forEach(c => {
-      const b = el("div", "tab" + (state.cat===c.nome?' active':''), c.nome);
-      b.onclick = () => { state.cat=c.nome; state.sub=null; state.grp=null; state.q=""; const q=document.getElementById("q"); if(q) q.value=""; render(data); };
-      catsEl.appendChild(b);
-    });
-    if(!state.cat && data.categorias && data.categorias[0]) state.cat = data.categorias[0].nome;
-  }
+function renderCats(d){
+  const elC=document.getElementById('cats'); elC.innerHTML='';
+  (d.categorias||[]).forEach(c=>{
+    const b=el('div','tab'+(state.cat===c.nome?' active':''),c.nome);
+    b.onclick=()=>{state.cat=c.nome;state.sub=null;state.grp=null;state.q='';const q=document.getElementById('q');if(q)q.value='';render(d)};
+    elC.appendChild(b);
+  });
+  // no auto-select -> show welcome until user clicks
+}
 
-  function renderSubcats(data){
-    const subEl = document.getElementById("subcats");
-    subEl.innerHTML = "";
-    const cat = (data.categorias||[]).find(c => c.nome===state.cat);
-    if(!cat) return;
-    (cat.subcategorias||[]).forEach(s => {
-      const b = el("div", "subtab" + (state.sub===s.nome?' active':''), s.nome);
-      b.onclick = () => { state.sub=s.nome; state.grp=null; state.q=""; const q=document.getElementById("q"); if(q) q.value=""; renderGroups(data); renderGrid(data); };
-      subEl.appendChild(b);
-    });
-  }
+function renderSubcats(d){
+  const elS=document.getElementById('subcats'); elS.innerHTML='';
+  const cat=(d.categorias||[]).find(c=>c.nome===state.cat); if(!cat) return;
+  (cat.subcategorias||[]).forEach(s=>{
+    const b=el('div','subtab'+(state.sub===s.nome?' active':''),s.nome);
+    b.onclick=()=>{state.sub=s.nome;state.grp=null;state.q='';const q=document.getElementById('q');if(q)q.value='';renderGroups(d);renderGrid(d)};
+    elS.appendChild(b);
+  });
+}
 
-  function renderGroups(data){
-    const grpEl = document.getElementById("groups");
-    grpEl.innerHTML = "";
-    const cat = (data.categorias||[]).find(c => c.nome===state.cat);
-    if(!cat) return;
-    const sub = (cat.subcategorias||[]).find(s => s.nome===state.sub);
-    if(!sub || !Array.isArray(sub.grupos)) { state.grp=null; return; }
+function renderGroups(d){
+  const elG=document.getElementById('groups'); elG.innerHTML='';
+  const cat=(d.categorias||[]).find(c=>c.nome===state.cat); if(!cat) return;
+  const sub=(cat.subcategorias||[]).find(s=>s.nome===state.sub); if(!sub||!Array.isArray(sub.grupos)){state.grp=null;return;}
+  sub.grupos.forEach(g=>{
+    const b=el('div','subtab'+(state.grp===g.nome?' active':''),g.nome);
+    b.onclick=()=>{state.grp=g.nome;state.q='';const q=document.getElementById('q');if(q)q.value='';renderGrid(d)};
+    elG.appendChild(b);
+  });
+  if(!state.grp && sub.grupos[0]) state.grp=sub.grupos[0].nome;
+}
 
-    sub.grupos.forEach(g => {
-      const b = el("div", "subtab" + (state.grp===g.nome?' active':''), g.nome);
-      b.onclick = () => { state.grp=g.nome; state.q=""; const q=document.getElementById("q"); if(q) q.value=""; renderGrid(data); };
-      grpEl.appendChild(b);
-    });
-    if(!state.grp && sub.grupos[0]) state.grp = sub.grupos[0].nome;
-  }
+function renderWelcome(){
+  const grid=document.getElementById('grid');
+  grid.classList.remove('dense');
+  grid.innerHTML=`
+    <article class="welcome">
+      <h2>Bem-vindo à loja 👋</h2>
+      <p class="muted">Escolhe uma categoria acima para começar.</p>
+      <ul>
+        <li>Pagamento rápido: <b>MB Way</b></li>
+        <li>Sublimação têxtil, cerâmica e muito mais</li>
+        <li>Impressão 3D em resina, PLA, PETG, ASA e ABS</li>
+      </ul>
+      <div class="cta" style="margin-top:12px">
+        <a class="btn" href="https://wa.me/351919707023?text=Ol%C3%A1%2C%20quero%20saber%20mais" target="_blank">WhatsApp</a>
+      </div>
+    </article>`;
+}
 
-  function renderCatHero(data){
-    const grid = document.getElementById("grid");
-    if(state.sub) return;
-    grid.innerHTML = "";
-    const cat = (data.categorias||[]).find(c => c.nome===state.cat);
-    if(!cat) return;
+function renderCatHero(d){
+  const grid=document.getElementById('grid'); if(state.sub) return;
+  grid.innerHTML='';
+  const cat=(d.categorias||[]).find(c=>c.nome===state.cat); if(!cat) return;
+  const box=document.createElement('article'); box.className='cat-hero';
+  const imgW=document.createElement('div'); imgW.className='img';
+  const img=new Image(); img.src=cat.imagem||''; img.loading='lazy'; imgW.appendChild(img);
+  const body=document.createElement('div'); body.className='body';
+  const h=document.createElement('h2'); h.textContent=cat.nome;
+  const p=document.createElement('p'); p.textContent='Escolhe um submenu acima para ver os produtos.';
+  body.appendChild(h); body.appendChild(p); box.appendChild(imgW); box.appendChild(body); grid.appendChild(box);
+}
 
-    const box = document.createElement("article");
-    box.className = "cat-hero";
-    const imgWrap = document.createElement("div");
-    imgWrap.className = "img";
-    const img = new Image();
-    img.src = cat.imagem || "https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1200&auto=format&fit=crop";
-    img.loading = "lazy";
-    imgWrap.appendChild(img);
+function matchQ(it){ if(!state.q) return true; const q=state.q.toLowerCase(); return (it.titulo||'').toLowerCase().includes(q)||(it.descricao||'').toLowerCase().includes(q); }
 
-    const body = document.createElement("div");
-    body.className = "body";
-    const h = document.createElement("h2"); h.textContent = cat.nome;
-    const p = document.createElement("p"); p.textContent = "Escolhe um submenu acima para ver os produtos.";
-    body.appendChild(h); body.appendChild(p);
+function renderGrid(d){
+  const grid=document.getElementById('grid'); grid.innerHTML='';
+  if(!state.cat){renderWelcome();return;}
+  const cat=(d.categorias||[]).find(c=>c.nome===state.cat); if(!cat) return;
+  const sub=(cat.subcategorias||[]).find(s=>s.nome===state.sub); if(!sub){renderCatHero(d);return;}
 
-    box.appendChild(imgWrap); box.appendChild(body);
-    grid.appendChild(box);
-  }
+  let items=[];
+  if(Array.isArray(sub.grupos)&&sub.grupos.length){ const grp=sub.grupos.find(g=>g.nome===state.grp)||sub.grupos[0]; items=(grp.items||[]).filter(matchQ); }
+  else { items=(sub.items||[]).filter(matchQ); }
 
-  function matchQ(item){
-    if(!state.q) return true;
-    const q = state.q.toLowerCase();
-    return (item.titulo||"").toLowerCase().includes(q) || (item.descricao||"").toLowerCase().includes(q);
-  }
+  if(items.length>=8) grid.classList.add('dense'); else grid.classList.remove('dense');
+  if(items.length===0){ grid.appendChild(el('p','muted','Sem produtos nesta vista.')); return; }
 
-  function renderGrid(data){
-    const grid = document.getElementById("grid");
-    grid.innerHTML = "";
-    const cat = (data.categorias||[]).find(c => c.nome===state.cat); if(!cat) return;
-    const sub = (cat.subcategorias||[]).find(s => s.nome===state.sub); if(!sub) { renderCatHero(data); return; }
+  items.forEach(it=>{
+    const card=el('article','card');
+    const thumb=el('div','thumb');
+    const img=new Image(); img.src=it.imagem||''; img.loading='lazy'; img.onclick=()=>openZoom(img.src); thumb.appendChild(img);
+    const body=el('div','body');
+    const h=el('h3','',it.titulo||'Produto'); const dsc=el('p','muted',it.descricao||''); const pr=el('div','price',it.preco||'');
+    const cta=el('div','cta'); const w=el('a','btn primary','Pedir via WhatsApp (MB Way)');
+    const msg=encodeURIComponent((it.titulo||'Produto')+(it.preco?(' — '+it.preco):'')); w.href='https://wa.me/'+TEL+'?text='+msg; w.target='_blank';
+    cta.appendChild(w);
+    body.appendChild(h); body.appendChild(dsc); body.appendChild(pr); body.appendChild(cta);
+    card.appendChild(thumb); card.appendChild(body); grid.appendChild(card);
+  });
+}
 
-    let items = [];
-    if (Array.isArray(sub.grupos) && sub.grupos.length){
-      const grp = sub.grupos.find(g => g.nome===state.grp) || sub.grupos[0];
-      items = (grp.items||[]).filter(matchQ);
-    } else {
-      items = (sub.items||[]).filter(matchQ);
-    }
+function wireSearch(d){
+  const q=document.getElementById('q'); const clr=document.getElementById('clear');
+  q.value=state.q||''; q.addEventListener('input',()=>{state.q=q.value;renderGrid(d)});
+  clr.addEventListener('click',()=>{q.value='';state.q='';renderGrid(d)});
+}
 
-    if(items.length >= 8) grid.classList.add("dense"); else grid.classList.remove("dense");
+function applyHash(d){
+  const hash=location.hash.replace(/^#/,''); if(!hash) return;
+  const p=new URLSearchParams(hash); const cat=p.get('cat'), sub=p.get('sub'), grp=p.get('grp');
+  if(cat) state.cat=decodeURIComponent(cat); if(sub) state.sub=decodeURIComponent(sub); if(grp) state.grp=decodeURIComponent(grp);
+}
 
-    if(items.length===0){ grid.appendChild(el("p","muted","Sem produtos nesta vista.")); return; }
+function render(d){
+  renderCats(d); renderSubcats(d); renderGroups(d);
+  if(!state.cat){renderWelcome();return;}
+  if(!state.sub){renderCatHero(d);return;}
+  renderGrid(d);
+}
 
-    items.forEach(it => {
-      const card = el("article","card");
-      const thumb = el("div","thumb");
-      const img = new Image();
-      img.src = it.imagem || "https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=600&auto=format&fit=crop";
-      img.loading = "lazy";
-      img.onclick = () => openZoom(img.src);
-      thumb.appendChild(img);
+(function start(){
+  const d=getData(); applyHash(d); state.q=''; render(d); wireSearch(d);
+  window.addEventListener('hashchange',()=>{applyHash(d);render(d)});
+})();
 
-      const body = el("div","body");
-      const h = el("h3","title", it.titulo||"Produto");
-      const d = el("p","muted", it.descricao||"");
-      const p = el("div","price", it.preco||"");
-      const cta = el("div","cta");
-      const w = el("a","btn primary","Pedir via WhatsApp (MB Way)");
-      const msgBase = (it.whats || `Olá, quero encomendar: ${it.titulo||"Produto"}`);
-      const msg = encodeURIComponent(`${msgBase}${it.preco ? ` — ${it.preco}` : ""} — Pagamento: MB Way`);
-      w.href = "https://wa.me/" + TEL + "?text=" + msg; w.target = "_blank";
-      cta.appendChild(w);
-
-      body.appendChild(h); body.appendChild(d); body.appendChild(p); body.appendChild(cta);
-      card.appendChild(thumb); card.appendChild(body);
-      grid.appendChild(card);
-    });
-  }
-
-  function wireSearch(data){
-    const q = document.getElementById("q");
-    const clear = document.getElementById("clear");
-    q.value = state.q || "";
-    q.addEventListener("input", () => { state.q = q.value; renderGrid(data); });
-    clear.addEventListener("click", () => { q.value=""; state.q=""; renderGrid(data); });
-  }
-
-  function applyHash(data){
-    const hash = location.hash.replace(/^#/, "");
-    if(!hash) return;
-    const params = new URLSearchParams(hash);
-    const cat = params.get("cat"), sub = params.get("sub"), grp = params.get("grp");
-    if(cat) state.cat = decodeURIComponent(cat);
-    if(sub) state.sub = decodeURIComponent(sub);
-    if(grp) state.grp = decodeURIComponent(grp);
-  }
-
-  function render(data){
-    renderCats(data);
-    renderSubcats(data);
-    renderGroups(data);
-    if(!state.sub){ renderCatHero(data); return; }
-    renderGrid(data);
-  }
-
-  (function start(){
-    const data = getData();
-    applyHash(data);
-    state.q = "";
-    render(data);
-    wireSearch(data);
-    window.addEventListener("hashchange", () => { applyHash(data); render(data); });
-  })();
 </script>
-
 <div id="zoom"><img alt=""></div>
 <script>
-  const zoomEl = document.getElementById('zoom');
-  function openZoom(src){ zoomEl.querySelector('img').src = src; zoomEl.style.display = 'grid'; zoomEl.classList.add('closeable'); }
-  zoomEl.addEventListener('click', () => { zoomEl.style.display='none'; zoomEl.querySelector('img').src=''; });
+const zoomEl=document.getElementById('zoom');
+function openZoom(src){zoomEl.querySelector('img').src=src;zoomEl.style.display='grid';}
+zoomEl.addEventListener('click',()=>{zoomEl.style.display='none';zoomEl.querySelector('img').src='';});
 </script>
-
-</body>
-</html>
+</body></html>

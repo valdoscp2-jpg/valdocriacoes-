@@ -49,5 +49,9 @@ footer{border-top:1px solid #222;color:var(--muted);padding:26px 0;margin-top:28
 .cat-hero .body{ padding:12px 14px }
 .cat-hero h2{ margin:0 0 4px; font-size:18px }
 .cat-hero p{ margin:0; color:#9aa4b2; font-size:13px }
+.welcome{border:1px solid #2a3040;border-radius:16px;padding:18px;background:#121622;max-width:780px}
+.welcome h2{margin:0 0 6px}
+.welcome ul{margin:10px 0 0 18px;color:var(--muted)}
+.welcome li{margin:6px 0}
 @media (max-width:980px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.grid{grid-template-columns:1fr}}
