@@ -3,14 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Loja — Valdo Criações</title>
+<title>Loja — Valdo Criações (single)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .card .thumb{aspect-ratio:4/3;background:#0d0f14;overflow:hidden;display:flex;align-items:center;justify-content:center}
-  .card .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .card .thumb{
+    aspect-ratio:4/3; background:#0d0f14; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card .thumb img{ width:100%; height:100%; object-fit:cover; display:block }
+  .banner-info{background:#132131;border:1px solid #244463;color:#cfe6ff;padding:10px;border-radius:10px;margin:10px 0;font-size:14px}
 </style>
 </head>
 <body>
@@ -29,6 +33,7 @@
 
 <main class="container">
   <h1>Loja</h1>
+  <div class="banner-info">Versão de diagnóstico: dados embutidos. Se as categorias funcionarem aqui, o problema era o <code>produtos.json</code> (caminho/JSON).</div>
 
   <div class="tabs" id="cats"></div>
   <div class="tabs" id="subcats"></div>
@@ -39,7 +44,6 @@
       <a id="clear" class="btn">Limpar</a>
     </div>
   </div>
-  <p class="fine">Edita em <code>produtos.json</code> (na raiz do projeto).</p>
 
   <section>
     <div class="grid" id="grid"></div>
@@ -50,9 +54,118 @@
   <div class="container fine">© 2025 Valdo Criações — Produção própria. Envios CTT. Pagamento por MB Way, Multibanco, Cartão e PayPal.</div>
 </footer>
 
+<!-- DADOS EMBUTIDOS PARA TESTE -->
+<script id="prod-json" type="application/json">{
+  "categorias": [
+    {
+      "nome": "Artigos de Sublimação",
+      "subcategorias": [
+        {
+          "nome": "Têxteis",
+          "items": [
+            {
+              "titulo": "Camisola “Namastê” — S-XXL",
+              "descricao": "Sublimação HD • 260–265 g/m² • 65% poli / 35% algodão.",
+              "preco": "€24,90",
+              "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop",
+              "whats": "Quero encomendar a Camisola Namastê (S-XXL)"
+            },
+            {
+              "titulo": "Hoodie personalizado",
+              "descricao": "Impressão por sublimação de alta definição. Várias cores e tamanhos.",
+              "preco": "desde €29,90",
+              "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=600&auto=format&fit=crop"
+            }
+          ]
+        },
+        {
+          "nome": "Cerâmica",
+          "items": [
+            {
+              "titulo": "Caneca personalizada 330 ml",
+              "descricao": "Sublimação 100% — resistente à máquina de lavar.",
+              "preco": "€9,90",
+              "imagem": "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=600&auto=format&fit=crop",
+              "whats": "Encomenda Caneca 330 ml"
+            },
+            {
+              "titulo": "Azulejo decorativo 15×15",
+              "descricao": "Peça cerâmica com arte personalizada por sublimação.",
+              "preco": "€12,00",
+              "imagem": "https://images.unsplash.com/photo-1601397922721-4324df3dc42d?q=80&w=600&auto=format&fit=crop"
+            }
+          ]
+        },
+        {
+          "nome": "Diversos",
+          "items": [
+            {
+              "titulo": "Base de rato personalizada",
+              "descricao": "Textura confortável, impressão nítida por sublimação.",
+              "preco": "€7,50",
+              "imagem": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600&auto=format&fit=crop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "3D",
+      "subcategorias": [
+        {
+          "nome": "Resina 3D",
+          "items": [
+            {
+              "titulo": "Miniatura em resina (alto detalhe)",
+              "descricao": "Impressão em resina UV com acabamento fino. Pintura opcional.",
+              "preco": "desde €29,00",
+              "imagem": "https://images.unsplash.com/photo-1557814769-96d38c6f7e8d?q=80&w=600&auto=format&fit=crop",
+              "whats": "Orçamento Miniatura Resina 3D"
+            }
+          ]
+        },
+        {
+          "nome": "Impressão 3D PLA & PETG",
+          "items": [
+            {
+              "titulo": "Peça técnica PLA/PETG",
+              "descricao": "Impressão robusta para peças funcionais. Várias cores.",
+              "preco": "sob orçamento",
+              "imagem": "https://images.unsplash.com/photo-1541417904950-b855846fe074?q=80&w=600&auto=format&fit=crop",
+              "whats": "Orçamento Impressão 3D PLA/PETG"
+            }
+          ]
+        },
+        {
+          "nome": "ASA, ABS & Outros",
+          "items": [
+            {
+              "titulo": "Peça ASA/ABS para exterior",
+              "descricao": "Materiais de engenharia resistentes ao clima e temperatura.",
+              "preco": "sob orçamento",
+              "imagem": "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=600&auto=format&fit=crop",
+              "whats": "Orçamento ASA/ABS"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}</script>
+
 <script>
   const TEL = "351919707023";
   const state = {cat:null, sub:null, q:""};
+
+  function getData(){
+    try{
+      const el = document.getElementById('prod-json');
+      return JSON.parse(el.textContent);
+    }catch(e){
+      alert("JSON embutido inválido: " + e.message);
+      return {categorias:[]};
+    }
+  }
 
   function el(tag, cls, txt){
     const e = document.createElement(tag);
@@ -64,7 +177,7 @@
   function renderCats(data){
     const catsEl = document.getElementById("cats");
     catsEl.innerHTML = "";
-    (data.categorias||[]).forEach(c => {
+    data.categorias.forEach(c => {
       const b = el("div", "tab" + (state.cat===c.nome?' active':''), c.nome);
       b.onclick = () => {
         state.cat = c.nome;
@@ -75,15 +188,15 @@
       };
       catsEl.appendChild(b);
     });
-    if(!state.cat && data.categorias && data.categorias[0]) state.cat = data.categorias[0].nome;
+    if(!state.cat && data.categorias[0]) state.cat = data.categorias[0].nome;
   }
 
   function renderSubcats(data){
     const subEl = document.getElementById("subcats");
     subEl.innerHTML = "";
-    const cat = (data.categorias||[]).find(c => c.nome===state.cat);
+    const cat = data.categorias.find(c => c.nome===state.cat);
     if(!cat) return;
-    (cat.subcategorias||[]).forEach(s => {
+    cat.subcategorias.forEach(s => {
       const b = el("div", "subtab" + (state.sub===s.nome?' active':''), s.nome);
       b.onclick = () => {
         state.sub = s.nome;
@@ -93,7 +206,7 @@
       };
       subEl.appendChild(b);
     });
-    if(!state.sub && cat.subcategorias && cat.subcategorias[0]) state.sub = cat.subcategorias[0].nome;
+    if(!state.sub && cat.subcategorias[0]) state.sub = cat.subcategorias[0].nome;
   }
 
   function matchQ(item){
@@ -105,9 +218,9 @@
   function renderGrid(data){
     const grid = document.getElementById("grid");
     grid.innerHTML = "";
-    const cat = (data.categorias||[]).find(c => c.nome===state.cat);
+    const cat = data.categorias.find(c => c.nome===state.cat);
     if(!cat) return;
-    const sub = (cat.subcategorias||[]).find(s => s.nome===state.sub);
+    const sub = cat.subcategorias.find(s => s.nome===state.sub);
     if(!sub) return;
 
     const items = (sub.items||[]).filter(matchQ);
@@ -145,18 +258,6 @@
     });
   }
 
-  async function loadData(){
-    try{
-      const r = await fetch("produtos.json?cache=" + Date.now());
-      if(!r.ok) throw new Error();
-      const data = await r.json();
-      if(!data || !Array.isArray(data.categorias)) throw new Error();
-      return data;
-    }catch(e){
-      return {categorias:[]};
-    }
-  }
-
   function wireSearch(data){
     const q = document.getElementById("q");
     const clear = document.getElementById("clear");
@@ -165,15 +266,18 @@
     clear.addEventListener("click", () => { q.value=""; state.q=""; renderGrid(data); });
   }
 
-  async function start(){
-    state.q = "";
-    const data = await loadData();
+  function render(data){
     renderCats(data);
     renderSubcats(data);
     renderGrid(data);
-    wireSearch(data);
   }
-  start();
+
+  (function start(){
+    const data = getData();
+    state.q = "";
+    render(data);
+    wireSearch(data);
+  })();
 </script>
 </body>
 </html>
