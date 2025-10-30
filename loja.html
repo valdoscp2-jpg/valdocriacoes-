@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Loja — Valdo Criações (single)</title>
+<title>Loja — Valdo Criações</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
+  /* garantir imagens contidas */
   .card .thumb{
     aspect-ratio:4/3; background:#0d0f14; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
   }
   .card .thumb img{ width:100%; height:100%; object-fit:cover; display:block }
-  .banner-info{background:#132131;border:1px solid #244463;color:#cfe6ff;padding:10px;border-radius:10px;margin:10px 0;font-size:14px}
 </style>
 </head>
 <body>
@@ -33,7 +33,6 @@
 
 <main class="container">
   <h1>Loja</h1>
-  <div class="banner-info">Versão de diagnóstico: dados embutidos. Se as categorias funcionarem aqui, o problema era o <code>produtos.json</code> (caminho/JSON).</div>
 
   <div class="tabs" id="cats"></div>
   <div class="tabs" id="subcats"></div>
@@ -51,10 +50,10 @@
 </main>
 
 <footer>
-  <div class="container fine">© 2025 Valdo Criações — Produção própria. Envios CTT. Pagamento por MB Way, Multibanco, Cartão e PayPal.</div>
+  <div class="container fine">© 2025 Valdo Criações — Envios CTT. MB Way, Multibanco, Cartão e PayPal.</div>
 </footer>
 
-<!-- DADOS EMBUTIDOS PARA TESTE -->
+<!-- DADOS EMBUTIDOS (editáveis aqui) -->
 <script id="prod-json" type="application/json">{
   "categorias": [
     {
@@ -162,7 +161,7 @@
       const el = document.getElementById('prod-json');
       return JSON.parse(el.textContent);
     }catch(e){
-      alert("JSON embutido inválido: " + e.message);
+      alert("JSON interno inválido: " + e.message);
       return {categorias:[]};
     }
   }
@@ -177,7 +176,7 @@
   function renderCats(data){
     const catsEl = document.getElementById("cats");
     catsEl.innerHTML = "";
-    data.categorias.forEach(c => {
+    (data.categorias||[]).forEach(c => {
       const b = el("div", "tab" + (state.cat===c.nome?' active':''), c.nome);
       b.onclick = () => {
         state.cat = c.nome;
@@ -188,15 +187,15 @@
       };
       catsEl.appendChild(b);
     });
-    if(!state.cat && data.categorias[0]) state.cat = data.categorias[0].nome;
+    if(!state.cat && data.categorias && data.categorias[0]) state.cat = data.categorias[0].nome;
   }
 
   function renderSubcats(data){
     const subEl = document.getElementById("subcats");
     subEl.innerHTML = "";
-    const cat = data.categorias.find(c => c.nome===state.cat);
+    const cat = (data.categorias||[]).find(c => c.nome===state.cat);
     if(!cat) return;
-    cat.subcategorias.forEach(s => {
+    (cat.subcategorias||[]).forEach(s => {
       const b = el("div", "subtab" + (state.sub===s.nome?' active':''), s.nome);
       b.onclick = () => {
         state.sub = s.nome;
@@ -206,7 +205,7 @@
       };
       subEl.appendChild(b);
     });
-    if(!state.sub && cat.subcategorias[0]) state.sub = cat.subcategorias[0].nome;
+    if(!state.sub && cat.subcategorias && cat.subcategorias[0]) state.sub = cat.subcategorias[0].nome;
   }
 
   function matchQ(item){
@@ -218,9 +217,9 @@
   function renderGrid(data){
     const grid = document.getElementById("grid");
     grid.innerHTML = "";
-    const cat = data.categorias.find(c => c.nome===state.cat);
+    const cat = (data.categorias||[]).find(c => c.nome===state.cat);
     if(!cat) return;
-    const sub = cat.subcategorias.find(s => s.nome===state.sub);
+    const sub = (cat.subcategorias||[]).find(s => s.nome===state.sub);
     if(!sub) return;
 
     const items = (sub.items||[]).filter(matchQ);
