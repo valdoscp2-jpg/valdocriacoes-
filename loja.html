@@ -60,8 +60,7 @@
       "nome": "Artigos de Sublimação",
       "subcategorias": [
         {
-         {
- "nome": "Têxteis",
+          "nome": "Têxteis",
           "items": [
             {
               "titulo": "Camisola “Namastê” — S-XXL",
@@ -243,10 +242,7 @@
       const p = el("div","price", it.preco||"");
       const cta = el("div","cta");
       const w = el("a","btn primary","Encomendar via WhatsApp");
-const msgBase = (it.whats || `Olá, quero encomendar: ${it.titulo||"Produto"}`);
-const msg = encodeURIComponent(`${msgBase}${it.preco ? ` — ${it.preco}` : ""}`);
-
-     
+      const msg = encodeURIComponent((it.whats || it.titulo || "Encomenda") + " — " + (it.preco||""));
       w.href = "https://wa.me/" + TEL + "?text=" + msg;
       w.target = "_blank";
       cta.appendChild(w);
@@ -284,7 +280,3 @@ const msg = encodeURIComponent(`${msgBase}${it.preco ? ` — ${it.preco}` : ""}`
 </script>
 </body>
 </html>
-
-
-
-
