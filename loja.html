@@ -242,7 +242,10 @@
       const p = el("div","price", it.preco||"");
       const cta = el("div","cta");
       const w = el("a","btn primary","Encomendar via WhatsApp");
-      const msg = encodeURIComponent((it.whats || it.titulo || "Encomenda") + " — " + (it.preco||""));
+const msgBase = (it.whats || `Olá, quero encomendar: ${it.titulo||"Produto"}`);
+const msg = encodeURIComponent(`${msgBase}${it.preco ? ` — ${it.preco}` : ""}`);
+
+     
       w.href = "https://wa.me/" + TEL + "?text=" + msg;
       w.target = "_blank";
       cta.appendChild(w);
@@ -280,3 +283,4 @@
 </script>
 </body>
 </html>
+
