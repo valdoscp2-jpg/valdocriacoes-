@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Loja — Valdo Criações</title>
+<meta name="description" content="Loja de artigos de sublimação (têxteis, cerâmica, diversos) e impressão 3D (resina, PLA, PETG, ASA, ABS)." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <a class="logo" href="index.html" style="display:grid;place-items:center;color:#111;font-weight:800;text-decoration:none">V</a>
+      <div><strong>Valdo Criações</strong><br><span class="fine">Sublimação & Impressão 3D</span></div>
+    </div>
+    <div>
+      <a class="btn" href="index.html">Início</a>
+      <a class="btn" href="https://wa.me/351919707023?text=Olá%2C%20quero%20encomendar" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <h1>Loja</h1>
+  <div class="tabs" id="cats"></div>
+  <div class="tabs" id="subcats"></div>
+
+  <div class="toolbar">
+    <div class="search">
+      <input id="q" placeholder="Procurar produto por nome/descrição..." />
+      <a id="clear" class="btn">Limpar</a>
+    </div>
+    <div class="fine">Edita em <code>produtos.json</code></div>
+  </div>
+
+  <section>
+    <div class="grid" id="grid"></div>
+    <p id="err" class="muted" style="display:none"></p>
+  </section>
+</main>
+
+<footer>
+  <div class="container fine">© 2025 Valdo Criações — Produção própria. Envios CTT. Pagamento por MB Way, Multibanco, Cartão e PayPal.</div>
+</footer>
+
+<script>
+const TEL = "351919707023";
+const state = {cat:null, sub:null, q:""};
+
+function parseHash(){
+  try{
+    const h = new URLSearchParams(location.hash.replace(/^#/, ""));
+    state.cat = h.get("cat") || state.cat;
+    state.sub = h.get("sub") || state.sub;
+    state.q = h.get("q") || state.q;
+  }catch(e){}
+}
+function pushHash(){
+  const h = new URLSearchParams();
+  if(state.cat) h.set("cat", state.cat);
+  if(state.sub) h.set("sub", state.sub);
+  if(state.q) h.set("q", state.q);
+  history.replaceState(null, "", "#" + h.toString());
+}
+
+async function loadData(){
+  try{
+    const res = await fetch("produtos.json?cache=" + Date.now());
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    return await res.json();
+  }catch(e){
+    const err = document.getElementById("err");
+    err.style.display = "block";
+    err.textContent = "Não foi possível carregar os produtos (" + e.message + "). Verifica se o ficheiro produtos.json está no repositório.";
+    return {categorias:[]};
+  }
+}
+
+function el(tag, cls, txt){
+  const e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(txt) e.textContent = txt;
+  return e;
+}
+
+function renderCats(data){
+  const catsEl = document.getElementById("cats");
+  catsEl.innerHTML = "";
+  data.categorias.forEach(c => {
+    const b = el("div", "tab" + (state.cat===c.nome?' active':''), c.nome);
+    b.onclick = () => { state.cat = c.nome; state.sub=null; render(data); pushHash(); };
+    catsEl.appendChild(b);
+  });
+  if(!state.cat && data.categorias[0]) state.cat = data.categorias[0].nome;
+}
+
+function renderSubcats(data){
+  const subEl = document.getElementById("subcats");
+  subEl.innerHTML = "";
+  const cat = data.categorias.find(c => c.nome===state.cat);
+  if(!cat) return;
+  cat.subcategorias.forEach(s => {
+    const b = el("div", "subtab" + (state.sub===s.nome?' active':''), s.nome);
+    b.onclick = () => { state.sub = s.nome; render(data); pushHash(); };
+    subEl.appendChild(b);
+  });
+  if(!state.sub && cat.subcategorias[0]) state.sub = cat.subcategorias[0].nome;
+}
+
+function matchQ(item){
+  if(!state.q) return true;
+  const q = state.q.toLowerCase();
+  return (item.titulo||"").toLowerCase().includes(q) || (item.descricao||"").toLowerCase().includes(q);
+}
+
+function renderGrid(data){
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  const cat = data.categorias.find(c => c.nome===state.cat);
+  if(!cat) return;
+  const sub = cat.subcategorias.find(s => s.nome===state.sub);
+  if(!sub) return;
+
+  const items = (sub.items||[]).filter(matchQ);
+  if(items.length===0){
+    const p = el("p", "muted", "Sem produtos nesta vista. Ajusta a pesquisa ou muda de subcategoria.");
+    grid.appendChild(p);
+    return;
+  }
+
+  items.forEach(it => {
+    const card = el("article","card");
+    const thumb = el("div","thumb");
+    const img = new Image();
+    img.src = it.imagem || "https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1200&auto=format&fit=crop";
+    img.loading = "lazy";
+    thumb.appendChild(img);
+    const body = el("div","body");
+    const h = el("h3","title", it.titulo||"Produto");
+    const d = el("p","muted", it.descricao||"");
+    const p = el("div","price", it.preco||"");
+    const cta = el("div","cta");
+    const w = el("a","btn primary","Encomendar via WhatsApp");
+    const msg = encodeURIComponent((it.whats || it.titulo || "Encomenda") + " — " + (it.preco||""));
+    w.href = "https://wa.me/" + TEL + "?text=" + msg;
+    w.target = "_blank";
+    cta.appendChild(w);
+    if(it.checkout){
+      const ck = el("a","btn","Checkout");
+      ck.href = it.checkout; ck.target = "_blank";
+      cta.appendChild(ck);
+    }
+    body.appendChild(h); body.appendChild(d); body.appendChild(p); body.appendChild(cta);
+    card.appendChild(thumb); card.appendChild(body);
+    grid.appendChild(card);
+  });
+}
+
+function wireSearch(data){
+  const q = document.getElementById("q");
+  const clear = document.getElementById("clear");
+  q.addEventListener("input", () => { state.q = q.value; renderGrid(data); pushHash(); });
+  clear.addEventListener("click", () => { q.value=""; state.q=""; renderGrid(data); pushHash(); });
+}
+
+async function start(){
+  parseHash();
+  const data = await loadData();
+  renderCats(data);
+  renderSubcats(data);
+  renderGrid(data);
+  wireSearch(data);
+}
+start();
+</script>
+</body>
+</html>
